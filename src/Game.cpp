@@ -30,13 +30,43 @@ bool Game::Initialize()
     return false;
   }
 
+  // set up openGL attributes, returns 0 if succes
+  SDL_GL_SetAttribute(
+    SDL_GLattr attr // attribute to set
+    , int value     // value for this attr
+  );
+  // use the core openGL profile
+  SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_PROFILE_MASK
+    , SDL_GL_CONTEXT_PROFILE_CORE
+  );
+  // specifiy version 3.3
+  SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_MAJOR_VERSION
+    , 3
+  );
+  SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_MINOR_VERSION
+    , 3
+  );
+  // request color buffer with 8-bits per RGBA channel
+  SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+  SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+  SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+  SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+  // enable double buffering
+  SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+  // force OpenGL to sue hardware acceleration
+  SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+
+
   m_Window = SDL_CreateWindow(
-    "Fox Hunt"
+    "Asteroids"
     , 100   // top left  x-coord
     , 100   // top left  y-coord
     , SCREEN_WIDTH  // width
     , SCREEN_HEIGHT   // height
-    , 0     // flags
+    , SDL_WINDOW_OPENGL     // use openGL
   );
 
   if (!m_Window)
@@ -347,6 +377,7 @@ void Game::RemoveSprite(SpriteComponent* sprite)
 
 void Game::GenerateOutput()
 {
+  /* Moving to OpenGL
   SDL_SetRenderDrawColor(
     m_Renderer
     , 38
@@ -363,6 +394,7 @@ void Game::GenerateOutput()
   }
 
   SDL_RenderPresent(m_Renderer);
+  */
 }
 
 Vector2 Game::GetPlayerPosition() const
