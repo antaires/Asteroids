@@ -5,7 +5,9 @@ build:
 	-lSDL2 \
 	-lSDL2_image \
 	-lSDL2_ttf \
-	-lSDL2_mixer;
+	-lSDL2_mixer \
+  -lGLEW \
+  -framework OpenGL;
 
 clean:
 	rm ./game;

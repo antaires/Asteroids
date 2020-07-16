@@ -16,6 +16,8 @@ private:
   SDL_Window* m_Window;
   SDL_Renderer* m_Renderer;
 
+  SDL_GLContext m_Context;
+
   bool m_IsRunning;
   bool m_UpdatingActors;
   Uint32 m_TicksCount;

@@ -7,6 +7,8 @@
 #include "TileMapComponent.h"
 #include "Map.h"
 
+#include <GL/glew.h>
+
 #include <algorithm>
 
 #include <iostream> // remove
@@ -31,10 +33,6 @@ bool Game::Initialize()
   }
 
   // set up openGL attributes, returns 0 if succes
-  SDL_GL_SetAttribute(
-    SDL_GLattr attr // attribute to set
-    , int value     // value for this attr
-  );
   // use the core openGL profile
   SDL_GL_SetAttribute(
     SDL_GL_CONTEXT_PROFILE_MASK
@@ -59,7 +57,6 @@ bool Game::Initialize()
   // force OpenGL to sue hardware acceleration
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
-
   m_Window = SDL_CreateWindow(
     "Asteroids"
     , 100   // top left  x-coord
@@ -68,6 +65,18 @@ bool Game::Initialize()
     , SCREEN_HEIGHT   // height
     , SDL_WINDOW_OPENGL     // use openGL
   );
+
+  // create open GL context and saves it to member variable
+  m_Context = SDL_GL_CreateContext(m_Window);
+
+  // init GLEW
+  glewExperimental = GL_TRUE;
+  if (glewInit() != GLEW_OK)
+  {
+    SDL_Log("Failed to initialize GLEW");
+    return false;
+  }
+  glGetError(); // clears benign error code
 
   if (!m_Window)
   {
@@ -377,7 +386,18 @@ void Game::RemoveSprite(SpriteComponent* sprite)
 
 void Game::GenerateOutput()
 {
-  /* Moving to OpenGL
+  // set clear color to gray
+  glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
+  // clear color buffer
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  // todo - draw scene
+
+  // swap buffers, which also displays the scene
+  SDL_GL_SwapWindow(m_Window);
+
+  // todo remove old sld funcs Moving to OpenGL
+  /*
   SDL_SetRenderDrawColor(
     m_Renderer
     , 38
@@ -423,6 +443,7 @@ void Game::ShutDown()
   UnloadData();
   IMG_Quit();
   SDL_DestroyRenderer(m_Renderer);
+  SDL_GL_DeleteContext(m_Context);
   SDL_DestroyWindow(m_Window);
   SDL_Quit();
 }
