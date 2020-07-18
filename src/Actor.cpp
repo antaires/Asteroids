@@ -92,8 +92,7 @@ void Actor::ActorInput(const uint8_t* keyState)
 
 Vector2 Actor::GetForward() const
 {
-  // negate y axis for SDL (where +y is down)
-  return Vector2(Math::Cos(m_Rotation), -Math::Sin(m_Rotation));
+  return Vector2(Math::Cos(m_Rotation), Math::Sin(m_Rotation));
 }
 
 

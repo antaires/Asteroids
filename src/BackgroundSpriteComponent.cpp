@@ -20,8 +20,10 @@ void BackgroundSpriteComponent::Update(float deltaTime)
   }
 }
 
-void BackgroundSpriteComponent::Draw(SDL_Renderer* renderer)
+void BackgroundSpriteComponent::Draw(Shader* shader)
 {
+  // TODO : use shader
+  /*
   // draw each background texture
   for(auto& bg : m_BGTextures)
   {
@@ -35,7 +37,7 @@ void BackgroundSpriteComponent::Draw(SDL_Renderer* renderer)
     // draw this background
     SDL_RenderCopy(renderer, bg.m_Texture, nullptr, &r);
   }
-
+  */
 }
 
 void BackgroundSpriteComponent::SetBGTextures(const std::vector<SDL_Texture*>& textures)

@@ -78,7 +78,7 @@ void Player::UpdateActor(float deltaTime)
 
   Vector2 forwardVector = Vector2::Normalize(GetForwardVector());
   Vector2 rightVector = Vector2(1, 0);
-  float angle = Math::Acos(Vector2::Dot(rightVector, forwardVector)); //Math::Atan2(-forwardVector.y, forwardVector.x);
+  float angle = Math::Acos(Vector2::Dot(rightVector, forwardVector)); //Math::Atan2(forwardVector.y, forwardVector.x);
   bool isAbove = forwardVector.y < 0;
 
   // set animation based on movement and forward vector

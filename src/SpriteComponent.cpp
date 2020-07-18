@@ -1,6 +1,9 @@
 #include "SpriteComponent.h"
 #include "Actor.h"
 #include "Game.h"
+#include "Shader.h"
+
+#include <GL/glew.h>
 
 SpriteComponent::SpriteComponent(class Actor* owner, int drawOrder)
   : Component(owner)
@@ -17,26 +20,14 @@ SpriteComponent::~SpriteComponent()
   m_Owner->GetGame()->RemoveSprite(this);
 }
 
-void SpriteComponent::Draw(SDL_Renderer* renderer)
+void SpriteComponent::Draw(Shader* shader)
 {
-  if (m_Texture)
-  {
-    SDL_Rect r;
-    r.w = static_cast<int>(m_TextureWidth * m_Owner->GetScale());
-    r.h = static_cast<int>(m_TextureHeight * m_Owner->GetScale());
-    r.x = static_cast<int>(m_Owner->GetPosition().x - r.w / 2);
-    r.y = static_cast<int>(m_Owner->GetPosition().y - r.h / 2);
-
-    SDL_RenderCopyEx(
-       renderer
-      , m_Texture
-      , nullptr
-      , &r
-      , -Math::ToDegrees(m_Owner->GetRotation())
-      , nullptr
-      , SDL_FLIP_NONE
-    );
-  }
+  glDrawElements(
+    GL_TRIANGLES
+    , 6                 // number of indices in index buffer
+    , GL_UNSIGNED_INT   // type of each index
+    , nullptr
+  );
 }
 
 void SpriteComponent::SetTexture(SDL_Texture* texture)

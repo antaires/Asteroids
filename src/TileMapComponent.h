@@ -20,5 +20,5 @@ public:
   TileMapComponent(class Actor* owner, int drawOrder = 10);
   bool LoadCsv(std::string fileName);
   void SetTextureRowsCols(int rows, int cols);
-  void Draw(SDL_Renderer* renderer) override;
+  void Draw(class Shader* shader) override;
 };

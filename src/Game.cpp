@@ -406,30 +406,19 @@ void Game::GenerateOutput()
   // clear color buffer
   glClear(GL_COLOR_BUFFER_BIT);
 
-  // todo - draw scene
+  // draw scene
+  // set sprite shader and vertex array objects active
+  m_SpriteShader->SetActive();
+  m_SpriteVerts->SetActive();
+
+  // draw all sprites
+  for(auto sprite: m_Sprites)
+  {
+    sprite->Draw(m_SpriteShader);
+  }
 
   // swap buffers, which also displays the scene
   SDL_GL_SwapWindow(m_Window);
-
-  // todo remove old sld funcs Moving to OpenGL
-  /*
-  SDL_SetRenderDrawColor(
-    m_Renderer
-    , 38
-    , 51
-    , 38
-    , 255
-  );
-  SDL_RenderClear(m_Renderer);
-
-  // Draw all sprite components
-  for(auto sprite: m_Sprites)
-  {
-    sprite->Draw(m_Renderer);
-  }
-
-  SDL_RenderPresent(m_Renderer);
-  */
 }
 
 Vector2 Game::GetPlayerPosition() const

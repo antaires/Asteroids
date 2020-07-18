@@ -48,8 +48,10 @@ bool TileMapComponent::LoadCsv(std::string fileName)
   return true;
 }
 
-void TileMapComponent::Draw(SDL_Renderer* renderer)
+void TileMapComponent::Draw(Shader* shader)
 {
+  // TODO : update to use Shader
+  /*
   if (m_Texture)
   {
     int screenCellId = 0; // draw left to right, top to bottom
@@ -91,6 +93,7 @@ void TileMapComponent::Draw(SDL_Renderer* renderer)
       ++screenCellId;
     }
   }
+  */
 }
 
 void TileMapComponent::ConvertIdToPosition(int cellId, int rows, int cols, int& i, int& j)
