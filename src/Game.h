@@ -34,6 +34,7 @@ private:
 
   // OpenGL
   class VertexArray* m_SpriteVerts;
+  class Shader* m_SpriteShader;
 
   void ProcessInput();
   void UpdateGame();
@@ -44,7 +45,8 @@ private:
   void UnloadData();
 
   // OpenGL
-  void InitSpriteVerts();
+  void CreateSpriteVerts();
+  bool LoadShaders();
 
 public:
   Game();

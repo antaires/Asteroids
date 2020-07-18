@@ -7,6 +7,7 @@
 #include "TileMapComponent.h"
 #include "Map.h"
 #include "VertexArray.h"
+#include "Shader.h"
 
 #include <GL/glew.h>
 
@@ -23,6 +24,7 @@ Game::Game()
   , m_Map(nullptr)
   , m_Player(nullptr)
   , m_SpriteVerts(nullptr)
+  , m_SpriteShader(nullptr)
   // TODO consider setting enemy vector initial size ...
 {}
 
@@ -36,19 +38,10 @@ bool Game::Initialize()
 
   // set up openGL attributes, returns 0 if succes
   // use the core openGL profile
-  SDL_GL_SetAttribute(
-    SDL_GL_CONTEXT_PROFILE_MASK
-    , SDL_GL_CONTEXT_PROFILE_CORE
-  );
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
   // specifiy version 3.3
-  SDL_GL_SetAttribute(
-    SDL_GL_CONTEXT_MAJOR_VERSION
-    , 3
-  );
-  SDL_GL_SetAttribute(
-    SDL_GL_CONTEXT_MINOR_VERSION
-    , 3
-  );
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
   // request color buffer with 8-bits per RGBA channel
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -67,6 +60,11 @@ bool Game::Initialize()
     , SCREEN_HEIGHT   // height
     , SDL_WINDOW_OPENGL     // use openGL
   );
+  if (!m_Window)
+  {
+    SDL_Log("Failed to create window: %s", SDL_GetError());
+    return false;
+  }
 
   // create open GL context and saves it to member variable
   m_Context = SDL_GL_CreateContext(m_Window);
@@ -80,32 +78,19 @@ bool Game::Initialize()
   }
   glGetError(); // clears benign error code
 
-  if (!m_Window)
+  if(!LoadShaders())
   {
-    SDL_Log("Failed to create window: %s", SDL_GetError());
+    SDL_Log("Failed to load shaders");
     return false;
   }
 
-  m_Renderer = SDL_CreateRenderer(
-    m_Window
-    , -1
-    , SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
-  );
-
-  if (!m_Renderer)
-  {
-    SDL_Log("Failed to create renderer: %s", SDL_GetError());
-    return false;
-  }
-
-  if (IMG_Init(IMG_INIT_PNG == 0)) // can add flags for different types
-  {
-    SDL_Log("Unable to init SDL_image: %s", SDL_GetError());
-    return false;
-  }
+  // create quad for drawing sprites
+  CreateSpriteVerts();
 
   LoadData();
+
   m_TicksCount = SDL_GetTicks();
+
   return true;
 }
 
@@ -331,7 +316,7 @@ void Game::UnloadData()
   m_Textures.clear();
 }
 
-void Game::InitSpriteVerts()
+void Game::CreateSpriteVerts()
 {
   float vertices[] = {
 		-0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
@@ -346,6 +331,17 @@ void Game::InitSpriteVerts()
 	};
 
   m_SpriteVerts = new VertexArray(vertices, 4, indices, 6);
+}
+
+bool Game::LoadShaders()
+{
+  m_SpriteShader = new Shader();
+  if(!m_SpriteShader->Load("shaders/Basic.vert", "shaders/Basic.frag"))
+  {
+    return false;
+  }
+  m_SpriteShader->SetActive();
+  return true;
 }
 
 SDL_Texture* Game::GetTexture(const std::string& fileName)
