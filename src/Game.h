@@ -32,6 +32,9 @@ private:
   std::vector<class SpriteComponent*> m_Sprites;
   std::unordered_map<std::string, SDL_Texture*> m_Textures;
 
+  // OpenGL
+  class VertexArray* m_SpriteVerts;
+
   void ProcessInput();
   void UpdateGame();
   void HandleCollisions();
@@ -39,6 +42,9 @@ private:
 
   void LoadData();
   void UnloadData();
+
+  // OpenGL
+  void InitSpriteVerts();
 
 public:
   Game();

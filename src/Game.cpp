@@ -6,6 +6,7 @@
 #include "CollisionDetection.h"
 #include "TileMapComponent.h"
 #include "Map.h"
+#include "VertexArray.h"
 
 #include <GL/glew.h>
 
@@ -21,6 +22,7 @@ Game::Game()
   , m_TicksCount(0)
   , m_Map(nullptr)
   , m_Player(nullptr)
+  , m_SpriteVerts(nullptr)
   // TODO consider setting enemy vector initial size ...
 {}
 
@@ -327,6 +329,23 @@ void Game::UnloadData()
     SDL_DestroyTexture(t.second);
   }
   m_Textures.clear();
+}
+
+void Game::InitSpriteVerts()
+{
+  float vertices[] = {
+		-0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
+		 0.5f,  0.5f, 0.f, 1.f, 0.f, // top right
+		 0.5f, -0.5f, 0.f, 1.f, 1.f, // bottom right
+		-0.5f, -0.5f, 0.f, 0.f, 1.f  // bottom left
+	};
+
+	unsigned int indices[] = {
+		0, 1, 2,
+		2, 3, 0
+	};
+
+  m_SpriteVerts = new VertexArray(vertices, 4, indices, 6);
 }
 
 SDL_Texture* Game::GetTexture(const std::string& fileName)
