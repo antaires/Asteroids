@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Math.h"
 #include <GL/glew.h>
 #include <string>
 
@@ -19,7 +20,7 @@ public:
   bool Load(const std::string& vertName, const std::string& fragName);
   void Unload();
   void SetActive();
-
+  void SetMatrixUniform(const char* name, const Matrix4& matrix);
 private:
   // compile specified shader
   bool CompileShader(const std::string& fileName, GLenum shaderType, GLuint& outShader);

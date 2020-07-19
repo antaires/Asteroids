@@ -14,7 +14,7 @@ Player::Player(class Game* game)
   , m_Circle(nullptr)
   , m_Rectangle(nullptr)
 {
-  SetScale(0.1f);
+  SetScale(1.0f);
 
   // set up move component
   m_InputComponent = new InputComponent(this);

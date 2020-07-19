@@ -9,7 +9,7 @@
 EnemyBullet::EnemyBullet(class Game* game, Vector2 forwardVector)
   :Actor(game)
   {
-    SetScale(0.05);
+    SetScale(0.5f);
 
     // set up anim sprite component
     m_AnimSpriteComponent = new AnimSpriteComponent(this);

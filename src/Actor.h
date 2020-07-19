@@ -76,6 +76,7 @@ public:
   void SetGoal(Vector2 goal);
   const Vector2& GetTopCornerPosition() const;
   class Game* GetGame();
+  Matrix4 GetWorldTransform() const;
 
   void AddComponent(class Component* component);
   void RemoveComponent(class Component* component);

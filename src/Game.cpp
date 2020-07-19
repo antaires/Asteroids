@@ -70,11 +70,10 @@ bool Game::Initialize()
   // create open GL context and saves it to member variable
   m_Context = SDL_GL_CreateContext(m_Window);
 
-  // required for mac! without this, a rectangle is drawn as a rhombus 
+  // required for mac! without this, a rectangle is drawn as a rhombus
   int screenWidth, screenHeight;
   SDL_GL_GetDrawableSize(m_Window, &screenWidth, &screenHeight );
   glViewport(0, 0, screenWidth, screenHeight); // adjust to high density screen
-
 
   // init GLEW
   glewExperimental = GL_TRUE;
@@ -348,11 +347,16 @@ void Game::CreateSpriteVerts()
 bool Game::LoadShaders()
 {
   m_SpriteShader = new Shader();
-  if(!m_SpriteShader->Load("shaders/Basic.vert", "shaders/Basic.frag"))
+  if(!m_SpriteShader->Load("shaders/Transform.vert", "shaders/Basic.frag"))
   {
     return false;
   }
   m_SpriteShader->SetActive();
+
+  // Matrix4 viewProj = Matrix4::CreateSimpleViewProj(m_ScreenWidth, m_ScreenHeight);
+  Matrix4 viewProj = Matrix4::CreateSimpleViewProj((float) SCREEN_WIDTH, (float) SCREEN_HEIGHT);
+  m_SpriteShader->SetMatrixUniform("uViewProj", viewProj);
+
   return true;
 }
 

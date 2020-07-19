@@ -175,6 +175,11 @@ const Vector2& Actor::GetTopCornerPosition() const { return m_TopCornerPosition;
 
 class Game* Actor::GetGame(){return m_Game;}
 
+Matrix4 Actor::GetWorldTransform() const
+{
+  return m_WorldTransform;
+}
+
 void Actor::AddComponent(class Component* component)
 {
   // add components in sorted order

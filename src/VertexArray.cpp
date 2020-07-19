@@ -12,7 +12,6 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts, const unsign
   // create vertex buffer
   glGenBuffers(1, &m_VertexBuffer);
   glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-
   // copy data into vertex buffer
   glBufferData(
     GL_ARRAY_BUFFER                 // active buffer type to write to
@@ -24,7 +23,6 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts, const unsign
   // create index buffer
   glGenBuffers(1, & m_IndexBuffer);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IndexBuffer);
-
   // copy indices data into index buffer
   glBufferData(
     GL_ELEMENT_ARRAY_BUFFER             // index buffer
