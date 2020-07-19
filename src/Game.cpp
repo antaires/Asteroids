@@ -70,11 +70,10 @@ bool Game::Initialize()
   // create open GL context and saves it to member variable
   m_Context = SDL_GL_CreateContext(m_Window);
 
-  // TODO FROM British guy -> mac specs 
-  // required for mac! do to with resolution
+  // required for mac! without this, a rectangle is drawn as a rhombus 
   int screenWidth, screenHeight;
   SDL_GL_GetDrawableSize(m_Window, &screenWidth, &screenHeight );
-  // glViewport(0, 0, screenWidth, screenHeight); // adjust to high density screen
+  glViewport(0, 0, screenWidth, screenHeight); // adjust to high density screen
 
 
   // init GLEW
@@ -275,8 +274,6 @@ void Game::LoadData()
   enemy2->SetPosition(Vector2(SCREEN_WIDTH - 30, SCREEN_HEIGHT/2));
   m_Enemies.push_back(enemy2);
 
-
-
   // create background tile map
   Actor* tileMapActor = new Actor(this);
   tileMapActor->SetPosition(Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2));
@@ -327,19 +324,25 @@ void Game::UnloadData()
 
 void Game::CreateSpriteVerts()
 {
-  float vertices[] = {
+  float vertexBuffer[] = {
+    -0.5f,  0.5f, 0.f, // top left
+		 0.5f,  0.5f, 0.f, // top right
+		 0.5f, -0.5f, 0.f, // bottom right
+		-0.5f, -0.5f, 0.f, // bottom left
+    /*
 		-0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
-		 0.5f,  0.5f, 0.f, 1.f, 0.f, // top right
-		 0.5f, -0.5f, 0.f, 1.f, 1.f, // bottom right
-		-0.5f, -0.5f, 0.f, 0.f, 1.f  // bottom left
-	};
+		 0.5f,  0.5f, 0.f, 0.f, 0.f, // top right
+		 0.5f, -0.5f, 0.f, 0.f, 0.f, // bottom right
+		-0.5f, -0.5f, 0.f, 0.f, 0.f  // bottom left
+    */
+  };
 
-	unsigned int indices[] = {
+	unsigned int indexBuffer[] = {
 		0, 1, 2,
 		2, 3, 0
 	};
 
-  m_SpriteVerts = new VertexArray(vertices, 4, indices, 6);
+  m_SpriteVerts = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
 }
 
 bool Game::LoadShaders()
