@@ -22,11 +22,11 @@ void InputComponent::ProcessInput(const uint8_t* keyState)
   Vector2 velocity(0.0f, 0.0f);
   if (keyState[m_UpKey])
   {
-    velocity.y -= 1;
+    velocity.y += 1;
   }
   if (keyState[m_DownKey])
   {
-    velocity.y += 1;
+    velocity.y -= 1;
   }
   if (keyState[m_LeftKey])
   {
