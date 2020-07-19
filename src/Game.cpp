@@ -42,6 +42,7 @@ bool Game::Initialize()
   // specifiy version 3.3
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
   // request color buffer with 8-bits per RGBA channel
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -68,6 +69,13 @@ bool Game::Initialize()
 
   // create open GL context and saves it to member variable
   m_Context = SDL_GL_CreateContext(m_Window);
+
+  // TODO FROM British guy -> mac specs 
+  // required for mac! do to with resolution
+  int screenWidth, screenHeight;
+  SDL_GL_GetDrawableSize(m_Window, &screenWidth, &screenHeight );
+  // glViewport(0, 0, screenWidth, screenHeight); // adjust to high density screen
+
 
   // init GLEW
   glewExperimental = GL_TRUE;
@@ -170,6 +178,7 @@ void Game::UpdateGame()
   // move pending actors to actors and clear
   for(auto pending : m_PendingActors)
   {
+    pending->ComputeWorldTransform();
     m_Actors.emplace_back(pending);
   }
   m_PendingActors.clear();

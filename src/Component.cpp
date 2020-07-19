@@ -22,6 +22,8 @@ void Component::ProcessInput(const uint8_t* keyState)
 void Component::ProcessMouse(const uint32_t mouseState, const int x, const int y)
 {}
 
+void Component::OnUpdateWorldTransform(){}
+
 int Component::GetUpdateOrder() const {return m_UpdateOrder;}
 
 class Actor* Component::GetOwner()

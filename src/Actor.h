@@ -16,8 +16,11 @@ private:
   Vector2 m_Position; // center of actor
   float m_Scale; // 1.0f is 100%
   float m_Rotation; // rotation angle in RADIANS
-  Vector2 m_PrevPosition;
 
+  Matrix4 m_WorldTransform;
+  bool m_RecomputeWorldTransform;
+
+  Vector2 m_PrevPosition;
   Vector2 m_TopCornerPosition; // used for rectangle collision check
 
   Vector2 m_Velocity;
@@ -48,6 +51,8 @@ public:
   virtual void HandleDeath();
 
   Vector2 GetForward() const;
+
+  void ComputeWorldTransform();
 
   State GetState() const;
   void SetState(State state);

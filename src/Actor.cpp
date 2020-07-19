@@ -6,6 +6,7 @@ Actor::Actor(class Game* game)
   , m_Position(Vector2(0.0f, 0.0f))
   , m_Scale(1.0f)
   , m_Rotation(0.0f)
+  , m_RecomputeWorldTransform(true)
   , m_PrevPosition(Vector2(0.0f, 0.0f))
   , m_TopCornerPosition(Vector2(0.0f, 0.0f))
   , m_Velocity(Vector2(0.0f, 0.0f))
@@ -34,8 +35,12 @@ void Actor::Update(float deltaTime)
 {
   if(m_State == E_Active)
   {
+    ComputeWorldTransform();
+
     UpdateComponents(deltaTime);
     UpdateActor(deltaTime);
+
+    ComputeWorldTransform();
   }
 
   if (m_State == E_Dying)
@@ -95,6 +100,24 @@ Vector2 Actor::GetForward() const
   return Vector2(Math::Cos(m_Rotation), Math::Sin(m_Rotation));
 }
 
+void Actor::ComputeWorldTransform()
+{
+  if(m_RecomputeWorldTransform)
+  {
+    m_RecomputeWorldTransform = false;
+    // scale, rotate then translate
+    m_WorldTransform = Matrix4::CreateScale(m_Scale);
+    m_WorldTransform *= Matrix4::CreateRotationZ(m_Rotation);
+    m_WorldTransform *= Matrix4::CreateTranslation(Vector3(m_Position.x, m_Position.y, 0.0f));
+
+    // inform components world transform updated
+    for(auto comp : m_Components)
+    {
+      comp->OnUpdateWorldTransform();
+    }
+  }
+}
+
 
 Actor::State Actor::GetState() const { return m_State;}
 
@@ -102,17 +125,29 @@ void Actor::SetState(State state) { m_State = state;}
 
 Vector2 Actor::GetPosition() const { return m_Position;}
 
-void Actor::SetPosition(const Vector2& pos) { m_Position = pos;}
+void Actor::SetPosition(const Vector2& pos)
+{
+  m_Position = pos;
+  m_RecomputeWorldTransform = true;
+}
 
 Vector2 Actor::GetPrevPosition() const { return m_PrevPosition; }
 
 float Actor::GetRotation() const { return m_Rotation;}
 
-void Actor::SetRotation(float rotation){m_Rotation = rotation;}
+void Actor::SetRotation(float rotation)
+{
+  m_Rotation = rotation;
+  m_RecomputeWorldTransform = true;
+}
 
 float Actor::GetScale() const { return m_Scale; }
 
-void Actor::SetScale(float scale) { m_Scale = scale; }
+void Actor::SetScale(float scale)
+{
+  m_Scale = scale;
+  m_RecomputeWorldTransform = true;
+}
 
 Vector2 Actor::GetVelocity() const { return m_Velocity; }
 
