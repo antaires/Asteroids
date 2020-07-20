@@ -15,7 +15,7 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts, const unsign
   // copy data into vertex buffer
   glBufferData(
     GL_ARRAY_BUFFER                 // active buffer type to write to
-    , numVerts * 3 * sizeof(float)  // number of bytes to copy
+    , numVerts * 5 * sizeof(float)  // number of bytes to copy
     , verts                         // source to copy from (pointer)
     , GL_STATIC_DRAW                // how will we use this data?
   );
@@ -34,15 +34,24 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts, const unsign
   // specify a vertex layout aka vertex attributes
   // current layout is a position with three float values
   glEnableVertexAttribArray(0); // enable first attribute 0
-
   // specify size, type and format of attribute
   glVertexAttribPointer(
     0                     // attribute index
     , 3                   // number of components
     , GL_FLOAT            // type of components
     , GL_FALSE            // used only for integral types
-    , sizeof(float) * 3   // stride (usually size of each vertex)
+    , sizeof(float) * 5   // stride (usually size of each vertex)
     , 0                   // offset from start of vertex to this attrib
+  );
+
+  glEnableVertexAttribArray(1); // enable UV attrib
+  glVertexAttribPointer(
+    1                     // attrib. index
+    , 2                   // only 2 components in UV
+    , GL_FLOAT
+    , GL_FALSE
+    , sizeof(float) * 5
+    , reinterpret_cast<void*>(sizeof(float) * 3) // offest pointer 
   );
 }
 

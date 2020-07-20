@@ -15,7 +15,7 @@ struct AnimationClip {
 class AnimSpriteComponent : public SpriteComponent
 {
 private:
-  std::vector<SDL_Texture*> m_AnimTextures;
+  std::vector<class Texture*> m_AnimTextures;
   std::unordered_map<std::string, AnimationClip> m_AnimationClips;
   std::string m_CurrentAnimationClip;
   std::string m_PreviousAnimationClip;
@@ -24,7 +24,7 @@ private:
 public:
   AnimSpriteComponent(class Actor* owner, int drawOrder = 100);
   void Update(float deltaTime) override;
-  void SetAnimTextures(const std::vector<SDL_Texture*>& textures);
+  void SetAnimTextures(const std::vector<class Texture*>& textures);
   void SetAnimationClip(std::string name, int startFrame, int endFrame, bool isLooping);
 
   void SetCurrentAnimationClip(std::string name);

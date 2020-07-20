@@ -40,7 +40,7 @@ void BackgroundSpriteComponent::Draw(Shader* shader)
   */
 }
 
-void BackgroundSpriteComponent::SetBGTextures(const std::vector<SDL_Texture*>& textures)
+void BackgroundSpriteComponent::SetBGTextures(const std::vector<Texture*>& textures)
 {
   int count = 0;
   for(auto tex : textures)

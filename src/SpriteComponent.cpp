@@ -2,6 +2,7 @@
 #include "Actor.h"
 #include "Game.h"
 #include "Shader.h"
+#include "Texture.h"
 
 #include <GL/glew.h>
 
@@ -9,8 +10,8 @@ SpriteComponent::SpriteComponent(class Actor* owner, int drawOrder)
   : Component(owner)
   , m_Texture(nullptr)
   , m_DrawOrder(drawOrder)
-  , m_TextureWidth(50) // TODO need to get this from texture !
-  , m_TextureHeight(50)
+  , m_TextureWidth(0)
+  , m_TextureHeight(0)
   {
     m_Owner->GetGame()->AddSprite(this);
   }
@@ -23,29 +24,35 @@ SpriteComponent::~SpriteComponent()
 void SpriteComponent::Draw(Shader* shader)
 {
   // scale the quad by the width/height of texture
-  Matrix4 scaleMat = Matrix4::CreateScale(
-    static_cast<float>(m_TextureWidth) // set width / height from texture ! 
-    , static_cast<float>(m_TextureHeight)
-    , 1.0f
-  );
-  Matrix4 world = scaleMat * m_Owner->GetWorldTransform();
+  if(m_Texture)
+  {
+    Matrix4 scaleMat = Matrix4::CreateScale(
+      static_cast<float>(m_TextureWidth) // set width / height from texture !
+      , static_cast<float>(m_TextureHeight)
+      , 1.0f
+    );
+    Matrix4 world = scaleMat * m_Owner->GetWorldTransform();
 
-  // set world transform
-  shader->SetMatrixUniform("uWorldTransform", world);
+    // set world transform
+    shader->SetMatrixUniform("uWorldTransform", world);
 
-  // draw quad
-  glDrawElements(
-    GL_TRIANGLES
-    , 6                 // number of indices in index buffer
-    , GL_UNSIGNED_INT   // type of each index
-    , nullptr
-  );
+    m_Texture->SetActive();
+
+    // draw quad
+    glDrawElements(
+      GL_TRIANGLES
+      , 6                 // number of indices in index buffer
+      , GL_UNSIGNED_INT   // type of each index
+      , nullptr
+    );
+  }
 }
 
-void SpriteComponent::SetTexture(SDL_Texture* texture)
+void SpriteComponent::SetTexture(Texture* texture)
 {
   m_Texture = texture;
-  SDL_QueryTexture(texture, nullptr, nullptr, &m_TextureWidth, &m_TextureHeight);
+  m_TextureWidth = texture->GetWidth();
+  m_TextureHeight = texture->GetHeight();
 }
 
 int SpriteComponent::GetDrawOrder() const {return m_DrawOrder;}

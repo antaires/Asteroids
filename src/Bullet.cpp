@@ -4,16 +4,17 @@
 #include "MoveComponent.h"
 #include "CircleComponent.h"
 #include "Game.h"
+#include "Texture.h"
 
 // bullet class for player to hit and kill enemies
 Bullet::Bullet(class Game* game, Vector2 forwardVector)
   :Actor(game)
   {
-    SetScale(0.5f);
+    SetScale(0.05f);
 
     // set up anim sprite component
     m_AnimSpriteComponent = new AnimSpriteComponent(this);
-    std::vector<SDL_Texture*> anims = {
+    std::vector<Texture*> anims = {
       game->GetTexture("assets/playerBullet01.png")
       , game->GetTexture("assets/playerBullet01.png")
       , game->GetTexture("assets/playerBullet02.png")

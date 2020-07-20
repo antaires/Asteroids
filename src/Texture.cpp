@@ -62,10 +62,14 @@ bool Texture::Load(const std::string& fileName)
 }
 
 void Texture::Unload()
-{}
+{
+  glDeleteTextures(1, &m_TextureId);
+}
 
 void Texture::SetActive()
-{}
+{
+  glBindTexture(GL_TEXTURE_2D, m_TextureId);
+}
 
 int Texture::GetWidth() const
 {

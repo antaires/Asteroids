@@ -6,6 +6,7 @@
 #include "RectangleComponent.h"
 #include "Bullet.h"
 #include "Game.h"
+#include "Texture.h"
 
 #include <iostream> // remove
 
@@ -14,7 +15,7 @@ Player::Player(class Game* game)
   , m_Circle(nullptr)
   , m_Rectangle(nullptr)
 {
-  SetScale(1.0f);
+  SetScale(0.1f);
 
   // set up move component
   m_InputComponent = new InputComponent(this);
@@ -22,7 +23,7 @@ Player::Player(class Game* game)
 
   // set up animation component
   m_AnimSpriteComponent = new AnimSpriteComponent(this);
-  std::vector<SDL_Texture*> anims = {
+  std::vector<Texture*> anims = {
       game->GetTexture("assets/fox01.png") // right fox : 0 - 3
     , game->GetTexture("assets/fox02.png")
     , game->GetTexture("assets/fox03.png")

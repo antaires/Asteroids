@@ -6,7 +6,7 @@
 class SpriteComponent: public Component {
  private:
  protected:
-   SDL_Texture* m_Texture;
+   class Texture* m_Texture;
    int m_DrawOrder;
    int m_TextureWidth;
    int m_TextureHeight;
@@ -14,7 +14,7 @@ class SpriteComponent: public Component {
    SpriteComponent(class Actor* owner, int drawOrder = 100);
    ~SpriteComponent();
    virtual void Draw(class Shader* shader);
-   virtual void SetTexture(SDL_Texture* texture);
+   virtual void SetTexture(class Texture* texture);
 
    int GetDrawOrder() const;
    int GetTextureHeight() const;

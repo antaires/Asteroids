@@ -30,7 +30,7 @@ private:
   std::vector<class Actor*> m_Actors;
   std::vector<class Actor*> m_PendingActors;
   std::vector<class SpriteComponent*> m_Sprites;
-  std::unordered_map<std::string, SDL_Texture*> m_Textures;
+  std::unordered_map<std::string, class Texture*> m_Textures;
 
   // OpenGL
   class VertexArray* m_SpriteVerts;
@@ -64,7 +64,7 @@ public:
   Vector2 GetPlayerPosition() const;
   class Player* GetPlayer();
 
-  SDL_Texture* GetTexture(const std::string& fileName);
+  class Texture* GetTexture(const std::string& fileName);
 
   bool CollidesWithBarrier(Vector2 pos, float width, float height);
 };

@@ -8,6 +8,7 @@
 #include "Map.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Texture.h"
 
 #include <GL/glew.h>
 
@@ -288,7 +289,7 @@ void Game::LoadData()
   temp->SetPosition(Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2));
   BackgroundSpriteComponent* bg = new BackgroundSpriteComponent(temp, 200);
   bg->SetScreenSize(Vector2(SCREEN_WIDTH, SCREEN_HEIGHT));
-  std::vector<SDL_Texture*> bgTexs = {
+  std::vector<Texture*> bgTexs = {
     GetTexture("assets/fog01.png")
     , GetTexture("assets/fog01.png")
   };
@@ -316,24 +317,21 @@ void Game::UnloadData()
 
   for(auto t : m_Textures)
   {
-    SDL_DestroyTexture(t.second);
+    t.second->Unload();
+    // SDL_DestroyTexture(t.second);
   }
   m_Textures.clear();
 }
 
 void Game::CreateSpriteVerts()
 {
+  // V texture coord is flipped to account for how openGL expects image data upsidedown
+  // pos = 3 #s, UV coords = 2 #s
   float vertexBuffer[] = {
-    -0.5f,  0.5f, 0.f, // top left
-		 0.5f,  0.5f, 0.f, // top right
-		 0.5f, -0.5f, 0.f, // bottom right
-		-0.5f, -0.5f, 0.f, // bottom left
-    /*
-		-0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
-		 0.5f,  0.5f, 0.f, 0.f, 0.f, // top right
-		 0.5f, -0.5f, 0.f, 0.f, 0.f, // bottom right
-		-0.5f, -0.5f, 0.f, 0.f, 0.f  // bottom left
-    */
+    -0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
+		 0.5f,  0.5f, 0.f, 1.f, 0.f, // top right
+		 0.5f, -0.5f, 0.f, 1.f, 1.f, // bottom right
+		-0.5f, -0.5f, 0.f, 0.f, 1.f // bottom left
   };
 
 	unsigned int indexBuffer[] = {
@@ -347,7 +345,7 @@ void Game::CreateSpriteVerts()
 bool Game::LoadShaders()
 {
   m_SpriteShader = new Shader();
-  if(!m_SpriteShader->Load("shaders/Transform.vert", "shaders/Basic.frag"))
+  if(!m_SpriteShader->Load("shaders/Sprite.vert", "shaders/Sprite.frag"))
   {
     return false;
   }
@@ -360,9 +358,9 @@ bool Game::LoadShaders()
   return true;
 }
 
-SDL_Texture* Game::GetTexture(const std::string& fileName)
+Texture* Game::GetTexture(const std::string& fileName)
 {
-  SDL_Texture* texture = nullptr;
+  Texture* texture = nullptr;
 
   // is texture already loaded?
   auto it = m_Textures.find(fileName);
@@ -370,21 +368,15 @@ SDL_Texture* Game::GetTexture(const std::string& fileName)
   {
     texture = it->second;
   } else {
-    // load from file
-    SDL_Surface* surface = IMG_Load(fileName.c_str());
-    if (!surface)
+    // load texture
+    texture = new Texture();
+    if (texture->Load(fileName))
     {
-      SDL_Log("Failed to load texture file: %s", fileName.c_str());
-      return nullptr;
+      m_Textures.emplace(fileName, texture);
+    } else {
+      delete texture;
+      texture = nullptr;
     }
-    texture = SDL_CreateTextureFromSurface(m_Renderer, surface);
-    SDL_FreeSurface(surface);
-    if(!texture)
-    {
-      SDL_Log("Failed to create texture from surface for: %s", fileName.c_str());
-      return nullptr;
-    }
-    m_Textures.emplace(fileName, texture);
   }
   return texture;
 }

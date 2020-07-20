@@ -10,6 +10,7 @@
 #include "NavigationComponent.h"
 #include "Player.h"
 #include "Game.h"
+#include "Texture.h"
 
 
 #include <iostream> // todo remove
@@ -20,11 +21,11 @@ Enemy::Enemy(class Game* game, class Map* map)
   , m_Circle(nullptr)
   , m_Rectangle(nullptr)
 {
-  SetScale(1.0f);
+  SetScale(0.1f);
 
   // set up animation component
   m_AnimSpriteComponent = new AnimSpriteComponent(this);
-  std::vector<SDL_Texture*> anims = {
+  std::vector<Texture*> anims = {
       game->GetTexture("assets/hunter01.png")
       , game->GetTexture("assets/hunter02.png")
       , game->GetTexture("assets/hunter03.png")
