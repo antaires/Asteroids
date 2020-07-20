@@ -419,6 +419,13 @@ void Game::GenerateOutput()
   m_SpriteShader->SetActive();
   m_SpriteVerts->SetActive();
 
+  // enable alpha blending
+  glEnable(GL_BLEND);
+  glBlendFunc(
+    GL_SRC_ALPHA              // srcFactor is srcAlpha
+    , GL_ONE_MINUS_SRC_ALPHA  // dstFactor is 1 - srcAlpha  
+  );
+
   // draw all sprites
   for(auto sprite: m_Sprites)
   {
