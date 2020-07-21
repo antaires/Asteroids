@@ -206,10 +206,16 @@ void Actor::RemoveComponent(class Component* component)
   }
 }
 
-void Actor::ClampToScreen(float& pos, int objHeight, int limit)
+void Actor::ClampToScreen(float& pos, int objSize, float lowerLimit, float upperLimit)
 {
-  if (pos < objHeight/2.0f){pos = objHeight/2.0f;}
-  if (pos > limit - (objHeight / 2)){pos = limit - (objHeight/2);}
+  if (pos < lowerLimit + (objSize/2.0f))
+  {
+    pos = lowerLimit + (objSize/2.0f);
+  }
+  if (pos > upperLimit - (objSize / 2.0f))
+  {
+    pos = upperLimit - (objSize/2.0f);
+  }
 }
 
 bool Actor::CollidesWithBarrier(Vector2 position, float width, float height) const

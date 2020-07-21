@@ -18,7 +18,7 @@ void MoveComponent::Update(float deltaTime)
     pos.y += m_Velocity.y * m_ForwardSpeed * deltaTime;
     if (m_ClampToScreen)
     {
-      m_Owner->ClampToScreen(pos.y, m_Owner->GetHeight(), SCREEN_HEIGHT);
+      m_Owner->ClampToScreen(pos.y, m_Owner->GetHeight(), -SCREEN_HEIGHT/2.0f, SCREEN_HEIGHT/2.0f);
     } else {
       // destroy if offscreen
 
@@ -29,7 +29,7 @@ void MoveComponent::Update(float deltaTime)
     pos.x += m_Velocity.x * m_ForwardSpeed * deltaTime;
     if (m_ClampToScreen)
     {
-      m_Owner->ClampToScreen(pos.x, m_Owner->GetWidth(), SCREEN_WIDTH);
+      m_Owner->ClampToScreen(pos.x, m_Owner->GetWidth(), -SCREEN_WIDTH/2.0f, SCREEN_WIDTH/2.0f);
     } else {
       // destroy
     }

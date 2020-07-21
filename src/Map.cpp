@@ -38,7 +38,7 @@ void Map::GenerateRandomLevelMap(std::string fileName)
     while(map[x][y] == 0)
     {
       map[x][y] = 1;
-      int direction = (int) GetRand(0, 3);
+      int direction = 0; // TODO for now, empty maps (int) GetRand(0, 3);
       if (direction == 0)
       {
         // go up

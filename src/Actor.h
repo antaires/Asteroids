@@ -81,6 +81,6 @@ public:
   void AddComponent(class Component* component);
   void RemoveComponent(class Component* component);
 
-  void ClampToScreen(float& pos, int objHeight, int limit);
+  void ClampToScreen(float& pos, int objSize, float lowerLimit, float upperLimit);
   bool CollidesWithBarrier(Vector2 position, float width, float height) const;
 };
