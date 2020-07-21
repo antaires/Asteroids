@@ -21,6 +21,6 @@ public:
   Vector2 GetForwardVector() const;
   void SetForwardVector(Vector2 forwardVector);
   void SetAngularSpeed(float angularSpeed);
-  void SetForwardSpeed(Vector2 velocity);
+  void SetForwardSpeed(float speed);
   void SetClampToScreen(bool clampToScreen);
 };

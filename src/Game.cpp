@@ -416,15 +416,11 @@ void Game::GenerateOutput()
   static float r = 0;
   static float g = 0;
   static float b = 0;
-
   static float changeFactor = 0.1;
-
   b+=changeFactor * m_DeltaTime;
   if (b > 1.0f || b < 0){g += changeFactor * m_DeltaTime;}
   if (g > 1.0f || g < 0){r += changeFactor * m_DeltaTime;}
-  if (r > 1.0f || r < 0){
-    changeFactor *= -1;
-  }
+  if (r > 1.0f || r < 0){ changeFactor *= -1;}
 
   glClearColor(r, g, b, 1.0f);
 

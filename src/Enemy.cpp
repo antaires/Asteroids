@@ -71,6 +71,7 @@ Enemy::Enemy(class Game* game, class Map* map)
 
   // add navigation component
   NavigationComponent* nav = new NavigationComponent(this);
+  nav->SetForwardSpeed(ENEMY_SPEED);
 }
 
 void Enemy::UpdateActor(float deltaTime)

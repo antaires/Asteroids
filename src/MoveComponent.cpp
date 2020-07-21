@@ -54,6 +54,8 @@ Vector2 MoveComponent::GetVelocity() const {return m_Velocity;}
 
 void MoveComponent::SetForwardVector(Vector2 forwardVector) { m_ForwardVector = forwardVector;}
 
+void MoveComponent::SetForwardSpeed(float speed) {m_ForwardSpeed = speed;}
+
 Vector2 MoveComponent::GetForwardVector() const { return m_ForwardVector; }
 
 float MoveComponent::GetAngularSpeed() const {return m_AngularSpeed;}
