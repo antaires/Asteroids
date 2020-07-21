@@ -26,13 +26,12 @@ Enemy::Enemy(class Game* game, class Map* map)
   // set up animation component
   m_AnimSpriteComponent = new AnimSpriteComponent(this);
   std::vector<Texture*> anims = {
-      game->GetTexture("assets/hunter01.png")
-      , game->GetTexture("assets/hunter02.png")
-      , game->GetTexture("assets/hunter03.png")
-      , game->GetTexture("assets/hunter04.png")
-      , game->GetTexture("assets/hunter05.png")
-      , game->GetTexture("assets/hunter06.png")
-      , game->GetTexture("assets/hunter07.png")
+      game->GetTexture("assets/asteroid.png")     // 0
+      , game->GetTexture("assets/asteroid_exp_1.png") // death 1 - 4
+      , game->GetTexture("assets/asteroid_exp_2.png")
+      , game->GetTexture("assets/asteroid_exp_3.png")
+      , game->GetTexture("assets/empty.png")
+
   };
   m_AnimSpriteComponent->SetAnimTextures(anims);
 
@@ -45,7 +44,7 @@ Enemy::Enemy(class Game* game, class Map* map)
   m_AnimSpriteComponent->SetAnimationClip("stillLeft", 0, 0, false);
   m_AnimSpriteComponent->SetAnimationClip("stillUp", 0, 0, false);
   m_AnimSpriteComponent->SetAnimationClip("stillDown", 0, 0, false);
-  m_AnimSpriteComponent->SetAnimationClip("dying", 1, 6, false);
+  m_AnimSpriteComponent->SetAnimationClip("dying", 1, 4, false);
 
   // set actor heigth / width from texture and scale
   SetHeight(m_AnimSpriteComponent->GetTextureHeight() * GetScale());

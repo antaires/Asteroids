@@ -286,29 +286,6 @@ void Game::LoadData()
   // set texture
   tileMapComponent->SetTextureRowsCols( 24, 8);
   tileMapComponent->SetTexture(GetTexture("assets/tiles.png"));
-
-  // create background actor for scrolling fog
-  Actor* temp = new Actor(this);
-  temp->SetPosition(Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/2));
-  BackgroundSpriteComponent* bg = new BackgroundSpriteComponent(temp, 200);
-  bg->SetScreenSize(Vector2(SCREEN_WIDTH, SCREEN_HEIGHT));
-  std::vector<Texture*> bgTexs = {
-    GetTexture("assets/fog01.png")
-    , GetTexture("assets/fog01.png")
-  };
-  bg->SetBGTextures(bgTexs);
-  bg->SetScrollSpeed(-50.0f);
-  // fog 2
-  bg = new BackgroundSpriteComponent(temp);
-  bg->SetScreenSize(Vector2(SCREEN_WIDTH, SCREEN_HEIGHT));
-  bgTexs = {
-      GetTexture("assets/fog01.png")
-    , GetTexture("assets/fog01.png")
-  };
-  bg->SetBGTextures(bgTexs);
-  bg->SetScrollSpeed(-70.0f);
-  // if want scrolling and paralax, create more bg's here to attach to temp actor
-
 }
 
 void Game::UnloadData()

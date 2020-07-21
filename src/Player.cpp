@@ -24,28 +24,34 @@ Player::Player(class Game* game)
   // set up animation component
   m_AnimSpriteComponent = new AnimSpriteComponent(this);
   std::vector<Texture*> anims = {
-      game->GetTexture("assets/fox01.png") // right fox : 0 - 3
-    , game->GetTexture("assets/fox02.png")
-    , game->GetTexture("assets/fox03.png")
-    , game->GetTexture("assets/fox04.png")
-    , game->GetTexture("assets/leftFox01.png") // left fox: 4 - 7
-    , game->GetTexture("assets/leftFox02.png")
-    , game->GetTexture("assets/leftFox01.png")
-    , game->GetTexture("assets/leftFox03.png")
-    , game->GetTexture("assets/downFox01.png")  // down fox: 8
-    , game->GetTexture("assets/upFox01.png")  // up fox : 9
+      game->GetTexture("assets/ship_up_still.png")    // up still 0
+    , game->GetTexture("assets/ship_up_moving_1.png") // up 1 - 3
+    , game->GetTexture("assets/ship_up_moving_2.png")
+    , game->GetTexture("assets/ship_up_moving_3.png")
+    , game->GetTexture("assets/ship_down_still.png")  // down still 4
+    , game->GetTexture("assets/ship_down_moving_1.png") // down 5 - 7
+    , game->GetTexture("assets/ship_down_moving_2.png")
+    , game->GetTexture("assets/ship_down_moving_3.png")
+    , game->GetTexture("assets/ship_left_still.png")  // left still 8
+    , game->GetTexture("assets/ship_left_moving_1.png") // left 9 - 11
+    , game->GetTexture("assets/ship_left_moving_2.png")
+    , game->GetTexture("assets/ship_left_moving_3.png")
+    , game->GetTexture("assets/ship_right_still.png")  // right still 12
+    , game->GetTexture("assets/ship_right_moving_1.png") // right 13 - 15
+    , game->GetTexture("assets/ship_right_moving_2.png")
+    , game->GetTexture("assets/ship_right_moving_3.png")
   };
   m_AnimSpriteComponent->SetAnimTextures(anims);
 
   // set names and ranges of animations
-  m_AnimSpriteComponent->SetAnimationClip("right", 0, 3, true);
-  m_AnimSpriteComponent->SetAnimationClip("left", 4, 7, true);
-  m_AnimSpriteComponent->SetAnimationClip("down", 8, 8, false);
-  m_AnimSpriteComponent->SetAnimationClip("up", 9, 9, false);
-  m_AnimSpriteComponent->SetAnimationClip("stillRight", 0, 0, false);
-  m_AnimSpriteComponent->SetAnimationClip("stillLeft", 4, 4, false);
-  m_AnimSpriteComponent->SetAnimationClip("stillUp", 9, 9, false);
-  m_AnimSpriteComponent->SetAnimationClip("stillDown", 8, 8, false);
+  m_AnimSpriteComponent->SetAnimationClip("right", 13, 15, true);
+  m_AnimSpriteComponent->SetAnimationClip("left", 9, 11, true);
+  m_AnimSpriteComponent->SetAnimationClip("down", 5, 7, true);
+  m_AnimSpriteComponent->SetAnimationClip("up", 1, 3, true);
+  m_AnimSpriteComponent->SetAnimationClip("stillRight", 12, 12, false);
+  m_AnimSpriteComponent->SetAnimationClip("stillLeft", 8, 8, false);
+  m_AnimSpriteComponent->SetAnimationClip("stillUp", 0, 0, false);
+  m_AnimSpriteComponent->SetAnimationClip("stillDown", 4, 4, false);
 
   // set actor heigth / width from texture and scale
   SetHeight(m_AnimSpriteComponent->GetTextureHeight() * GetScale());
@@ -106,18 +112,18 @@ void Player::UpdateActor(float deltaTime)
   {
     if(isMoving)
     {
-      m_AnimSpriteComponent->SetCurrentAnimationClip("down");
+      m_AnimSpriteComponent->SetCurrentAnimationClip("up");
     } else {
-      m_AnimSpriteComponent->SetCurrentAnimationClip("stillDown");
+      m_AnimSpriteComponent->SetCurrentAnimationClip("stillUp");
     }
   }
   if ( isAbove && (angle < 2 && angle > 1) )
   {
     if(isMoving)
     {
-      m_AnimSpriteComponent->SetCurrentAnimationClip("up");
+      m_AnimSpriteComponent->SetCurrentAnimationClip("down");
     } else {
-      m_AnimSpriteComponent->SetCurrentAnimationClip("stillUp");
+      m_AnimSpriteComponent->SetCurrentAnimationClip("stillDown");
     }
   }
 
