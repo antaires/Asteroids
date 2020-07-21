@@ -63,21 +63,27 @@ void InputComponent::ProcessMouse(const uint32_t mouseState, const int x, const 
   // TODO simplify
   Vector2 mousePos(x, y);
   Vector2 pos = m_Owner->GetPosition();
+
+  // translate SDL coords to center screen origin OpenGL coords
+  // can add zoom factor
+  mousePos.x = mousePos.x - SCREEN_WIDTH / 2.0f;
+  mousePos.y = -1 * (mousePos.y - SCREEN_HEIGHT / 2.0f);
+
   Vector2 forwardVector = mousePos - pos;
   SetForwardVector(forwardVector);
 
   // handle mouse clicks here using mouseState
-    SDL_PumpEvents();
-    if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT))
+  SDL_PumpEvents();
+  if (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT))
+  {
+    if (m_ShotTimer <= 0)
     {
-      if (m_ShotTimer <= 0)
-      {
-        forwardVector.Normalize();
-        forwardVector.x *= BULLET_SPEED;
-        forwardVector.y *= BULLET_SPEED;
-        Bullet* bullet = new Bullet(m_Owner->GetGame(), forwardVector);
-        bullet->SetPosition(m_Owner->GetPosition());
-        m_ShotTimer = PLAYER_SHOOT_TIMER;
-      }
+      forwardVector.Normalize();
+      forwardVector.x *= BULLET_SPEED;
+      forwardVector.y *= BULLET_SPEED;
+      Bullet* bullet = new Bullet(m_Owner->GetGame(), forwardVector);
+      bullet->SetPosition(m_Owner->GetPosition());
+      m_ShotTimer = PLAYER_SHOOT_TIMER;
     }
+  }
 }

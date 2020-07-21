@@ -266,13 +266,16 @@ void Game::LoadData()
   m_Player = new Player(this); // scale set inside class
   m_Player->SetPosition(Vector2(SCREEN_WIDTH/2, SCREEN_HEIGHT/3));
 
-  // create initial enemies TODO: make several
-  Enemy* enemy1 = new Enemy(this, m_Map); // scale set inside class
-  enemy1->SetPosition(Vector2(30, SCREEN_HEIGHT/2));
-  m_Enemies.push_back(enemy1);
-  Enemy* enemy2 = new Enemy(this, m_Map); // scale set inside class
-  enemy2->SetPosition(Vector2(SCREEN_WIDTH - 30, SCREEN_HEIGHT/2));
-  m_Enemies.push_back(enemy2);
+  // create initial enemies
+  for(int i = 0; i < 5; ++i)
+  {
+    Enemy* enemy = new Enemy(this, m_Map); // scale set inside class
+    enemy->SetPosition(Vector2(
+      m_Map->GetRand(-SCREEN_WIDTH/2.0f, SCREEN_WIDTH/2.0f)
+      , m_Map->GetRand(-SCREEN_HEIGHT/2.0f, SCREEN_HEIGHT/2.0f)
+    ));
+    m_Enemies.push_back(enemy);
+  }
 
   // create background tile map
   Actor* tileMapActor = new Actor(this);
@@ -423,7 +426,7 @@ void Game::GenerateOutput()
   glEnable(GL_BLEND);
   glBlendFunc(
     GL_SRC_ALPHA              // srcFactor is srcAlpha
-    , GL_ONE_MINUS_SRC_ALPHA  // dstFactor is 1 - srcAlpha  
+    , GL_ONE_MINUS_SRC_ALPHA  // dstFactor is 1 - srcAlpha
   );
 
   // draw all sprites

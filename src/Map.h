@@ -101,8 +101,6 @@ private:
   bool GBFS(const Graph& graph, const GraphNode* start, const GraphNode* goal, GBFSMap& outMap);
   bool AStar();
 
-  float GetRand(int min, int max) const;
-
 public:
   Map(std::string fileName);
   bool CollidesWithBarrier(Vector2 pos, float width, float height);
@@ -110,6 +108,8 @@ public:
   Vector2 GetRandomOpenPosition() const;
   void SetMode(Mode mode);
   void GetPath(Vector2 from, Vector2 to, std::vector<Vector2>& path);
+
+  float GetRand(int min, int max) const;
 
   // todo remove
   void GetPathTest(Vector2 from, Vector2 to, std::vector<Vector2>& path);
