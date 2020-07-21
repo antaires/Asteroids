@@ -18,7 +18,7 @@
 
 Game::Game()
   : m_Window(nullptr)
-  , m_Renderer(nullptr)
+  , m_DeltaTime(0)
   , m_IsRunning(true)
   , m_UpdatingActors(false)
   , m_TicksCount(0)
@@ -157,12 +157,12 @@ void Game::UpdateGame()
   while(!SDL_TICKS_PASSED(SDL_GetTicks(), m_TicksCount + 16));
 
   // deltaTime is difference in ticks from last frame
-  float deltaTime = (SDL_GetTicks() - m_TicksCount) / 1000.0f;
+  m_DeltaTime = (SDL_GetTicks() - m_TicksCount) / 1000.0f;
 
   // clamp max delta time value (to avoid jumping ahead during debug)
-  if (deltaTime > 0.05f)
+  if (m_DeltaTime > 0.05f)
   {
-    deltaTime = 0.05f;
+    m_DeltaTime = 0.05f;
   }
   m_TicksCount = SDL_GetTicks();
 
@@ -170,7 +170,7 @@ void Game::UpdateGame()
   m_UpdatingActors = true;
   for(auto actor: m_Actors)
   {
-    actor->Update(deltaTime);
+    actor->Update(m_DeltaTime);
   }
   m_UpdatingActors = false;
 
@@ -412,8 +412,22 @@ void Game::RemoveSprite(SpriteComponent* sprite)
 
 void Game::GenerateOutput()
 {
-  // set clear color to gray
-  glClearColor(0.86f, 0.86f, 0.86f, 1.0f);
+  // modulate color based on deltaTime
+  static float r = 0;
+  static float g = 0;
+  static float b = 0;
+
+  static float changeFactor = 0.1;
+
+  b+=changeFactor * m_DeltaTime;
+  if (b > 1.0f || b < 0){g += changeFactor * m_DeltaTime;}
+  if (g > 1.0f || g < 0){r += changeFactor * m_DeltaTime;}
+  if (r > 1.0f || r < 0){
+    changeFactor *= -1;
+  }
+
+  glClearColor(r, g, b, 1.0f);
+
   // clear color buffer
   glClear(GL_COLOR_BUFFER_BIT);
 
@@ -464,7 +478,6 @@ void Game::ShutDown()
 {
   UnloadData();
   IMG_Quit();
-  SDL_DestroyRenderer(m_Renderer);
   SDL_GL_DeleteContext(m_Context);
   SDL_DestroyWindow(m_Window);
   SDL_Quit();
