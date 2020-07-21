@@ -26,6 +26,7 @@ private:
   // Game specific
   Player* m_Player;
   std::vector<Enemy*> m_Enemies;
+  float m_EnemySpawnTimer;
 
   std::vector<class Actor*> m_Actors;
   std::vector<class Actor*> m_PendingActors;

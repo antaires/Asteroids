@@ -24,6 +24,7 @@ Game::Game()
   , m_TicksCount(0)
   , m_Map(nullptr)
   , m_Player(nullptr)
+  , m_EnemySpawnTimer(0.0f)
   , m_SpriteVerts(nullptr)
   , m_SpriteShader(nullptr)
   // TODO consider setting enemy vector initial size ...
@@ -201,6 +202,19 @@ void Game::UpdateGame()
     {
       m_Actors.erase(it);
     }
+  }
+
+  // add new enemies on timer
+  m_EnemySpawnTimer += (1 * m_DeltaTime);
+  if(m_EnemySpawnTimer > 1)
+  {
+    m_EnemySpawnTimer = 0;
+    Enemy* enemy = new Enemy(this, m_Map); // scale set inside class
+    enemy->SetPosition(Vector2(
+      m_Map->GetRand(-SCREEN_WIDTH/2.0f, SCREEN_WIDTH/2.0f)
+      , m_Map->GetRand(-SCREEN_HEIGHT/2.0f, SCREEN_HEIGHT/2.0f)
+    ));
+    m_Enemies.push_back(enemy);
   }
 }
 
